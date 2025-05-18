@@ -1,0 +1,7 @@
+# Emacs backup files
+*~
+\#*\#
+.\#*
+
+# Directory-local variables file
+.dir-locals.el
