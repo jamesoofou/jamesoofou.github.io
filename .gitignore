@@ -1,7 +1,10 @@
-# Emacs backup files
-*~
-\#*\#
-.\#*
+# Ignore Emacs backup files
+*~           # Temporary files ending with ~
+\#*#         # Auto-save files like #filename#
+.\#*         # Lock files like .#filename
 
-# Directory-local variables file
+# Ignore Org files (optional – only if you don’t want to track them)
+*.org
+
+# Ignore Emacs directory-local variables file
 .dir-locals.el
