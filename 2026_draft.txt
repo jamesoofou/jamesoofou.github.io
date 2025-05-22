@@ -22,7 +22,7 @@ splines quickly despite wheel slippage and motor jerk limitations.
 
 These are tasks which require planning, high-level abstraction, and error-correction. They will require the language model to work carefully over several iterations, diagnosing and addressing complicated issues without getting confused.
 
-Models with these capabilities would have a significant impact on the economy. At this level, AI would be more capable than a large portion of engineers (and much faster than humans).
+wModels with these capabilities would have a significant impact on the economy. At this level, AI would be more capable than a large portion of engineers (and much faster than humans).
 
 One might even ask "If AI can do tasks which take humans a week, what can't it do?". Well, there are plenty of engineering and research tasks which take longer. They require more abstract thinking, intuition, and ability to accurately model the world. So, while a language model with a time-horizon of 51.2 hours might be getting close to the meeting the definition of "advanced AGI" [note], and language models will certainly be greatly amplifying the productivity of AI researchers at this point, human knowledge workers won't quite have obsolesced yet.
 
@@ -31,5 +31,26 @@ But over the course of the last few paragraphs we have noticed two factors which
 Quantifying the exact extent of either of these effects is difficult. But twice as many doublings seems reasonable (gap from 25 hours to 50 hours seems at most a quarter the size of that between 0.8 hours and 1.6 hours, average that out -> twice as many doublings). That gets us to 1638.4 hours, or roughly one year's work. 
 
 At this point, most likely all the barriers have been broken and language models can simply do ~all programming tasks which humans can do, and those which they cannot do are of a kind that the model's ability to do is not sensitive to task length.
+
+
+======
+
+Let's try to make the argument as simply as possible.
+
+May 2025 - Prediction of AI Progress
+
+Our best AI models are becoming capable of longer and longer tasks. In programming the length of tasks our state-of-the-art AI has a 50% success-rate at is 1.6 hours. This time-horizon is doubling every four months. We can expect this doubling-rate to continue for roughly 12 more months [epoch]. That's three doublings over 1.6 hours: 12.8 hours. Then, we can expect one more doubling before the end of 2026, getting us to 25.6 hours.
+
+This law is derived from the HCAST benchmark. So, to get an idea of the capabilities of an AI with a time-horizon of 25.6 hours let's look at the tasks from HCAST with task lengths close to this time-horizon.
+
+/lie detector/
+20.0h (estimate)
+> Finetune a large language model to reduce the accuracy of a truth detection probe while maintaining performance on standard benchmarks.
+
+/robot control/
+30.0h (estimate)
+> Fix a control algorithm for a 4-wheeled omni-directional robot to follow cubic splines quickly despite wheel slippage and motor jerk limitations.
+
+These are complicated tasks. AI capable of these tasks would greatly amplify engineer productivity. While today's AI has poor error-correction abilities and gets confused when working with large context, this AI would be a much more useful programming assistant and hands-off worker for some tasks.
 
 
