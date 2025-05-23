@@ -1,0 +1,35 @@
+May 2025
+
+Tasks can be sorted according to how long it takes skilled humans to carry them out. This way of sorting tasks tends to give us a good indication of whether a given language model can carry them out. The language model tends to perform well at tasks with lengths up to a certain size, then poorly at longer tasks.
+
+We can plot "the task length at which the best-available language model performs well" against time. This gives us an idea of how language model capabilities are progressing. We'll focus on programming tasks.
+
+[graph]
+
+Language model capabilities have been doubling roughly every 7 months by this metric. And since reasoning models the doubling time has shortened to 4 months. This is because the training compute used for training reasoning models is still scaling faster than frontier compute clusters are scaling, which is projected to end in ~2027 [cite Epoch AI].
+
+Let's assume the pattern lasts until the end of 2026. Where would that get us? The time horizon of the best model is currently 1.6 hours [cite whatever]. The end of 2026 is 20 months away, so we can expect five doublings. 1.6 × 2⁵ = 51.2. That means we can expect language models to be able to do programming tasks which would take skilled humans 51.2 hours--roughly one work week.
+
+We should ask ourselves "What kind of programming tasks would this be, concretely?". Our doubling law is based on METR's HCAST benchmark, so let's look at the problems in the HCAST set with lengths nearby 51.2 hours.
+
+20 hours:
+> Finetune a large language model to reduce the accuracy of a truth detection
+probe while maintaining performance on standard benchmarks.
+
+30 hours:
+> Fix a control algorithm for a 4-wheeled omni-directional robot to follow cubic
+splines quickly despite wheel slippage and motor jerk limitations.
+
+These are tasks which require planning, high-level abstraction, and error-correction. They will require the language model to work carefully over several iterations, diagnosing and addressing complicated issues without getting confused.
+
+Models with these capabilities would have a significant impact on the economy. At this level, AI would be more capable than a large portion of engineers (and much faster than humans).
+
+One might even ask "If AI can do tasks which take humans a week, what can't it do?". Well, there are plenty of engineering and research tasks which take longer. They require more abstract thinking, intuition, and ability to accurately model the world. So, while a language model with a time-horizon of 51.2 hours might be getting close to the meeting the definition of "advanced AGI" [note], and language models will certainly be greatly amplifying the productivity of AI researchers at this point, human knowledge workers won't quite have obsolesced yet.
+
+But over the course of the last few paragraphs we have noticed two factors which entail that the time-horizon of our best model at EOY 2026 should actually be longer than 51.2 hours. Firstly, that as language models improve they will increasingly amplify the productivity of AI researchers. Secondly, that the gap between being a time-horizon of one week and two weeks is much smaller than that between half an hour and an hour -- if one can do tasks which take a week, one will also be able to do the vast majority of tasks which take two weeks -- there just isn't that much difference between the two. This means that going from 1.6 hours to 93 hours will be much easier than going from 1 minute to 1 hour was. I.e., the doubling-time should decrease as time-horizons increase.
+
+Quantifying the exact extent of either of these effects is difficult. But twice as many doublings seems reasonable (gap from 25 hours to 50 hours seems at most a quarter the size of that between 0.8 hours and 1.6 hours, average that out -> twice as many doublings). That gets us to 1638.4 hours, or roughly one year's work. 
+
+At this point, most likely all the barriers have been broken and language models can simply do ~all programming tasks which humans can do, and those which they cannot do are of a kind that the model's ability to do is not sensitive to task length.
+
+

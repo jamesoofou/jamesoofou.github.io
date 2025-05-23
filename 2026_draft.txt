@@ -35,22 +35,28 @@ At this point, most likely all the barriers have been broken and language models
 
 ======
 
-Let's try to make the argument as simply as possible.
+Going from 12.8 hours to 25.6 hours is easier than going from 1.6 hours to 3.2 hours. This is because going from 1.6 hours to 3.2 hours requires figuring out a lot of concepts related to error-correction and working with long contexts, but by 12.8 hours most of these have already been figured out. From 1 minute to 1000 hours we need to create AI which is better at these things, but the amount of work required per double decreases over time. This is easier to see if we take slightly larger gaps. Let's compare going from 1 minute to 10 minutes and going from 100 hours to 1000 hours (because time-horizon is not an absolute wall, and it's at this factor ..) to go from 1 minute to 10 minutes is the difference between
 
-May 2025 - Prediction of AI Progress
+OK, to illustrate, let's look at examples from HCAST
 
-Our best AI models are becoming capable of longer and longer tasks. In programming the length of tasks our state-of-the-art AI has a 50% success-rate at is 1.6 hours. This time-horizon is doubling every four months. We can expect this doubling-rate to continue for roughly 12 more months [epoch]. That's three doublings over 1.6 hours: 12.8 hours. Then, we can expect one more doubling before the end of 2026, getting us to 25.6 hours.
+======
 
-This law is derived from the HCAST benchmark. So, to get an idea of the capabilities of an AI with a time-horizon of 25.6 hours let's look at the tasks from HCAST with task lengths close to this time-horizon.
+notes on articles
 
-/lie detector/
-20.0h (estimate)
-> Finetune a large language model to reduce the accuracy of a truth detection probe while maintaining performance on standard benchmarks.
+** https://writings.stephenwolfram.com/2025/05/what-if-we-had-bigger-brains-imagining-minds-beyond-ours/
 
-/robot control/
-30.0h (estimate)
-> Fix a control algorithm for a 4-wheeled omni-directional robot to follow cubic splines quickly despite wheel slippage and motor jerk limitations.
+- humans have about 100,000,000,000 (100 trillion) connections, whereas the best neural networks have how many? Will we see hyperhuman conceptualisation at, say, 10 quadrillion artificial connections?
 
-These are complicated tasks. AI capable of these tasks would greatly amplify engineer productivity. While today's AI has poor error-correction abilities and gets confused when working with large context, this AI would be a much more useful programming assistant and hands-off worker for some tasks.
+- related to the classic "humans are just chimp brains scaled up" type posts
+
+*** some differencces that may exist between brains the size of human brains and brains which are larger
+
+- more words
+
+- we can expect language models to, as they scale (and in particular as they scale with RL past some human threshold), to come up with a model of the world more precise than that of us humans, a model which makes distinctions between various things we generalise as being effectively identical, and therefore will be able to notice patterns we are simply blind, conceptually blind, to. The exact implications of this in mathematics are perhaps interesting. One might suggest that in mathematics this is not such an issue; mathematical objects are well-defined, and where there are differences we notice them. But I have two points: firstly, that when working on difficult mathematics one is nonetheless making exactly the same kind of simplications that one makes in the real world, looking for analogues between systems, and, for example, will waste plenty of time looking for analogues between non-analogous systems simply because one does not have an expansive enough concept-handling faculty to notice that in the relevant sense these systems are not in fact analogues. And, secondly, that with a more developed concept-handing faculty a neural network could invent and work with many useful objects, and notice their usefulness to motivate the development of mathematics using them, that humans never could, allowing these largeer-than-human neural networks to develop mathematics humans could not, and to make discoveries we never would, and in many cases simply couldn't, leading to novel, hyperhuman mathematics, which, as we can arrive at by generalisation from human mathematics, would turn out to be unreasonably effective at describing the real world, although this is perhaps largely because the abstractions the concept-handling faculty supports are derived from real-world data, although I suspect that perhaps in equal party it is because the world is so rich that any mathematical system will have an application, at least in some approximate form, to it.
+
+- I think it's true that the human concept-faculty can reach beyond itself to understand the concepts of neural-nets more developed than those of /our/ brains. We can approach their concepts, leveraging our own abstractions, to reach them and work with them, though at a certain distance. But as neural-nets get /sufficiently/ more developed than our own, rather than just being one or a few levels ahead / deeper, I suspect this kind of endeavor would become almost-totally hopeless. Although perhaps there may be some small number of insights that we could approach with the help of a superintelligence which were of such great import that humans were willing to dedicate their society to understanding them, like as with churches and God. Or, we could immediately run into total conceptual blocks, unable to even begin to grasp these concepts for which evolution simply has not equipped us the tools to handle.
+
+> At the outset we might have thought any attempt for us to “understand minds beyond ours” would be like asking a cat to understand algebra. But somehow the universality of the concepts of computation that we now know—with their ability to address the deepest foundations of physics and other fields—makes it seem more plausible we might now be in a position to meaningfully discuss minds beyond ours. Or at least to discuss the rather more concrete question of what brains like ours, but bigger than ours, might be able to do.
 
 
