@@ -1,10 +1,16 @@
-# Ignore Emacs backup files
-*~           # Temporary files ending with ~
-\#*#         # Auto-save files like #filename#
-.\#*         # Lock files like .#filename
+# Ignore everything
+*
 
-# Ignore Org files (optional – only if you don’t want to track them)
-*.org
+# But don't ignore these files
+!index.html
+!about.html
+!template.html
+!prediction.html
+!epic-sci-fi.html
+!style.css
+!manifold.html
+!emacs.gif
+!transrights.gif
 
-# Ignore Emacs directory-local variables file
-.dir-locals.el
+# Also don't ignore .gitignore itself
+!.gitignore
