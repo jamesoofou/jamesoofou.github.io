@@ -21,6 +21,8 @@ a {
     font-size: 12px;
     border-radius: 3px;
     z-index: 1000;
+    /* Ensure it's properly positioned */
+    left: auto;
 }
 
 .style-toggle:hover {
