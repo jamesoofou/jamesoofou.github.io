@@ -23,12 +23,7 @@
     
     <script>
     function toggleStyle() {
-      const stylesheet = document.getElementById('main-stylesheet');
-      if (stylesheet.disabled) {
-        stylesheet.disabled = false;
-      } else {
-        stylesheet.disabled = true;
-      }
+      document.body.classList.toggle('unstyled');
     }
     </script>
   </body>

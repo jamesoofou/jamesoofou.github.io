@@ -28,3 +28,28 @@ a {
 .style-toggle:hover {
     background-color: #32CD32;
 }
+
+/* Unstyled appearance - resembles browser defaults */
+body.unstyled {
+    background-color: white;
+    color: black;
+}
+
+body.unstyled a {
+    color: blue;
+}
+
+body.unstyled a:visited {
+    color: purple;
+}
+
+/* Keep button positioned even in unstyled mode */
+body.unstyled .style-toggle {
+    background-color: #f0f0f0;
+    color: black;
+    border: 1px solid #ccc;
+}
+
+body.unstyled .style-toggle:hover {
+    background-color: #e0e0e0;
+}
