@@ -1,0 +1,5 @@
+/* Simple black background with lime green text */
+body {
+    background-color: black;
+    color: LimeGreen;
+}
