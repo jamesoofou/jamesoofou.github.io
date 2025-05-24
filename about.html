@@ -2,9 +2,10 @@
 <html>
   <head>
     <title>jim's web site</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" id="main-stylesheet">
   </head>
   <body>
+    <button class="style-toggle" onclick="toggleStyle()">Toggle Style</button>
     <a href="./index.html">home</a>
     <p>I'm jim. In London. Born 1999. Interested in philosophy and artificial intelligence.</p>
     <ul>
@@ -13,5 +14,16 @@
       <li><a href="https://jamesoofou.substack.com/">Substack</li>
       <li><a href="https://x.com/pokorz">X</li>
     </ul>
+    
+    <script>
+    function toggleStyle() {
+      const stylesheet = document.getElementById('main-stylesheet');
+      if (stylesheet.disabled) {
+        stylesheet.disabled = false;
+      } else {
+        stylesheet.disabled = true;
+      }
+    }
+    </script>
   </body>
 </html>
