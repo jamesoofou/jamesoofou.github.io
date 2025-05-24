@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jim's web site</title>
+  </head>
+  <body>
+    <a href="./index.html">home</a>
+    <p>AGI-related Manifold Predictions</p>
+
+    <dl>
+      <dt>AGI When? [High Quality Turing Test]</dt>
+      <dd></dd>
+    </dl>
+    
+  </body>
+</html>
