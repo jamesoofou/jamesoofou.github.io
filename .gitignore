@@ -6,7 +6,6 @@
 !about.html
 !template.html
 !prediction.html
-!epic-sci-fi.html
 !style.css
 !manifold.html
 !emacs.gif
@@ -16,6 +15,6 @@
 !brickcat.jpg
 !home.gif
 !bookmarks.html
+!manifold-microblog.html
 
-# Also don't ignore .gitignore itself
 !.gitignore
