@@ -2,6 +2,7 @@
 *
 
 # But don't ignore these files
+!cogsec.html
 !mid2026.html
 !index.html
 !about.html
