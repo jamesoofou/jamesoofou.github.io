@@ -2,6 +2,7 @@
 *
 
 # But don't ignore these files
+!questions-for-asi.html
 !cogsec.html
 !mid2026.html
 !index.html
