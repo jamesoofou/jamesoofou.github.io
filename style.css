@@ -10,3 +10,8 @@ a {
     color: LimeGreen;
 }
 
+blockquote {
+    border-left: 4px solid LimeGreen;
+    padding-left: 12px;           
+    margin: 1em 0;                
+  }
