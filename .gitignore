@@ -2,7 +2,6 @@
 *
 
 # But don't ignore these files
-!cogsec.html
 !mid2026.html
 !index.html
 !about.html
@@ -18,5 +17,9 @@
 !home.gif
 !bookmarks.html
 !manifold-microblog.html
+!prediction.gif
+!library.gif
+!bookmarks.gif
+!library.html
 
 !.gitignore
