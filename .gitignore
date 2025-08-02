@@ -2,18 +2,11 @@
 *
 
 # But don't ignore these files
-!mid2026.html
 !index.html
-!about.html
-!template.html
 !prediction.html
 !style.css
 !manifold.html
-!emacs.gif
 !transrights.gif
-!banporn.gif
-!clickhere.gif
-!brickcat.jpg
 !home.gif
 !bookmarks.html
 !manifold-microblog.html
@@ -21,5 +14,9 @@
 !library.GIF
 !bookmarks.gif
 !library.html
+!fund.html
+!JHQ.gif
+!door1.gif
+!door2.gif
 
 !.gitignore
