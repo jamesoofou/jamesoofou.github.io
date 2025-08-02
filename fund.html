@@ -11,16 +11,44 @@
 	<img src="./door1.gif" alt="home" class="top">
       </a>
     </div>
-    <h1>Jim Fund</h1>
-    <p>Predicting intelligence take-off.</p>
-    <p>Buying calls.</p>
-    <p>
-      S&amp;P 500,
-      Google,
-      Meta,
-      Amazon,
-      Microsoft,
-      TSMC
-    </p>
+    <p>Jim Fund</p>
+    <p>Betting on an intelligence explosion</p>
+
+    <!-- Countdown Module -->
+    <div id="countdown"></div>
+
+    <script>
+      (function() {
+	  // Set the target date and time
+	  const targetDate = new Date("June 17, 2027 00:00:00").getTime();
+	  const countdownEl = document.getElementById("countdown");
+
+	  function updateCountdown() {
+	      const now = Date.now();
+	      const distance = targetDate - now;
+
+	      if (distance <= 0) {
+		  countdownEl.textContent = "Time's up!";
+		  clearInterval(timer);
+		  return;
+	      }
+
+	      // Calculate remaining time
+	      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+	      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+	      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+	      // Display result
+	      countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+	  }
+
+	  // Update every second
+	  const timer = setInterval(updateCountdown, 1000);
+	  updateCountdown(); // Run immediately
+      })();
+    </script>
+    <!-- End Countdown Module -->
+
   </body>
 </html>
