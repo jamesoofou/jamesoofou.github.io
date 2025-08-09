@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jim's web site</title>
+    <link rel="stylesheet" href="style.css" id="main-stylesheet">
+  </head>
+  <body>
+    <a class="nunder" href="./home.html">
+    <img src="./castle-static.gif"
+	 data-gif="./tower.gif" 
+	 class="hover-gif"
+	 width="150"
+	 alt="home">
+    </a>
+    
+    <div class="jhq-container">
+      <a href="./fund.html">
+	<img src="./jhq2.gif" width="150" alt="jim fund">
+	<img src="./jhq1.gif" width="150" alt="jim fund" class="top">
+      </a>
+    </div>
+
+    <script>
+      // Optimized hover GIF handling
+      (function () {
+	  const gifs = document.querySelectorAll('.hover-gif');
+	  if (!gifs.length) return;
+
+	  const dataMap = new WeakMap();
+
+	  gifs.forEach((img) => {
+	      const staticSrc = img.getAttribute('src');
+	      const gifSrc = img.dataset.gif;
+	      if (!gifSrc) return;
+
+	      dataMap.set(img, { staticSrc, gifSrc, preloaded: false });
+	  });
+
+	  function bustCache(url) {
+	      const sep = url.includes('?') ? '&' : '?';
+	      return url + sep + 't=' + Date.now();
+	  }
+
+	  function preloadGif(entry) {
+	      if (entry.preloaded) return;
+	      const pre = new Image();
+	      pre.decoding = 'async';
+	      pre.src = bustCache(entry.gifSrc);
+	      entry.preloaded = true;
+	  }
+
+	  document.addEventListener('mouseover', onEnter, { passive: true, capture: true });
+	  document.addEventListener('mouseout', onLeave, { passive: true, capture: true });
+
+	  function isEnteringFromOutside(e) {
+	      const related = e.relatedTarget;
+	      return !related || (related !== e.target && !e.target.contains(related));
+	  }
+
+	  function isLeavingToOutside(e) {
+	      const related = e.relatedTarget;
+	      return !related || (related !== e.target && !e.target.contains(related));
+	  }
+
+	  function onEnter(e) {
+	      const img = e.target;
+	      if (!(img instanceof HTMLImageElement)) return;
+	      if (!img.classList || !img.classList.contains('hover-gif')) return;
+	      if (!isEnteringFromOutside(e)) return;
+
+	      const entry = dataMap.get(img);
+	      if (!entry) return;
+
+	      preloadGif(entry);
+	      img.src = bustCache(entry.gifSrc);
+	  }
+
+	  function onLeave(e) {
+	      const img = e.target;
+	      if (!(img instanceof HTMLImageElement)) return;
+	      if (!img.classList || !img.classList.contains('hover-gif')) return;
+	      if (!isLeavingToOutside(e)) return;
+
+	      const entry = dataMap.get(img);
+	      if (!entry) return;
+
+	      img.src = entry.staticSrc;
+	  }
+
+	  if ('IntersectionObserver' in window) {
+	      const io = new IntersectionObserver(
+		  (entries) => {
+		      for (const { isIntersecting, target } of entries) {
+			  if (!isIntersecting) continue;
+			  const entry = dataMap.get(target);
+			  if (!entry) continue;
+			  preloadGif(entry);
+			  io.unobserve(target);
+		      }
+		  },
+		  { rootMargin: '200px' }
+	      );
+
+	      gifs.forEach((img) => io.observe(img));
+	  }
+      })();
+    </script>
+    <!-- replace the home.gif image in the philosophy.html, bookmarks.html, and library.html files with the hover-gif castle/tower .gif stuff found in prediction.html. Include the script. 
+  </body>
+</html>
