@@ -9,133 +9,93 @@
     <body>
 	
 <p style="font-family: Courier, monospace; font-size: 22px;">
-  <a href="./index.html" style="font-family: Courier monospace; font-size: 22px;">&lt;</a>
-  <br>Jim's Fund
-  <br>Anticipating level-2.</p>
+    <a href="./index.html" style="font-family: Courier monospace; font-size: 22px;">&lt;</a>
+    <br>Jim's Fund
+    <br>Anticipating level-2.</p>
 
-<div id="countdown"></div>
-<img src="./cyber-static.gif"
-     data-gif="./artificial-intelligence.gif" 
-     class="hover-gif" 
-     alt="scroll">    
-<!-- Countdown created by GPT-4o -->    
-<script>
-  (function() {
-      // Set the target date and time
-      const targetDate = new Date("June 17, 2027 00:00:00").getTime();
-      const countdownEl = document.getElementById("countdown");
+    <div id="countdown"></div>
+    <img src="./cyber-static.gif"
+	 data-gif="./artificial-intelligence.gif" 
+	 class="hover-gif" 
+	 alt="scroll">    
+    <!-- Countdown created by GPT-4o -->    
+    <script>
+     (function() {
+	 const targetDate = new Date("June 17, 2027 00:00:00").getTime();
+	 const countdownEl = document.getElementById("countdown");
 
-      function updateCountdown() {
-	  const now = Date.now();
-	  const distance = targetDate - now;
+	 function updateCountdown() {
+             const now = Date.now();
+             const distance = targetDate - now;
 
-	  if (distance <= 0) {
-	      countdownEl.textContent = "Hello from the past. Things have become quite interesting, yes?";
-	      clearInterval(timer);
-	      return;
-	  }
+             if (distance <= 0) {
+		 countdownEl.textContent = "Hello from the past. Things have become quite interesting, yes?";
+		 clearInterval(timer);
+		 return;
+             }
 
-	  // Calculate remaining time
-	  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-	  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-	  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-	  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-	  // Display result
-	  countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-      }
+             countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+	 }
 
-      // Update every second
-      const timer = setInterval(updateCountdown, 1000);
-      updateCountdown(); // Run immediately
-  })();
-</script>
-<!-- End Countdown Module -->
-<script>
-  // Optimized hover GIF handling
-  (function () {
-      const gifs = document.querySelectorAll('.hover-gif');
-      if (!gifs.length) return;
+	 const timer = setInterval(updateCountdown, 1000);
+	 updateCountdown();
+     })();
+    </script>
+    <!-- End Countdown Module -->
 
-      const dataMap = new WeakMap();
+    <script>
+     (function () {
+	 const gifs = document.querySelectorAll('.hover-gif');
+	 if (!gifs.length) return;
 
-      gifs.forEach((img) => {
-	  const staticSrc = img.getAttribute('src');
-	  const gifSrc = img.dataset.gif;
-	  if (!gifSrc) return;
+	 // Helper: append cache buster to URL
+	 function bustCache(url) {
+             const sep = url.includes('?') ? '&' : '?';
+             return url + sep + 't=' + Date.now();
+	 }
 
-	  dataMap.set(img, { staticSrc, gifSrc, preloaded: false });
-      });
+	 // Store the current bust cache URL for each image
+	 const currentCacheBustedURLs = new WeakMap();
 
-      function bustCache(url) {
-	  const sep = url.includes('?') ? '&' : '?';
-	  return url + sep + 't=' + Date.now();
-      }
+	 document.addEventListener('mouseover', onEnter, { passive: true, capture: true });
 
-      function preloadGif(entry) {
-	  if (entry.preloaded) return;
-	  const pre = new Image();
-	  pre.decoding = 'async';
-	  pre.src = bustCache(entry.gifSrc);
-	  entry.preloaded = true;
-      }
+	 function isEnteringFromOutside(e) {
+             const related = e.relatedTarget;
+             return !related || (related !== e.target && !e.target.contains(related));
+	 }
 
-      document.addEventListener('mouseover', onEnter, { passive: true, capture: true });
-      document.addEventListener('mouseout', onLeave, { passive: true, capture: true });
+	 function onEnter(e) {
+             const img = e.target;
+             if (!(img instanceof HTMLImageElement)) return;
+             if (!img.classList.contains('hover-gif')) return;
+             if (!isEnteringFromOutside(e)) return;
 
-      function isEnteringFromOutside(e) {
-	  const related = e.relatedTarget;
-	  return !related || (related !== e.target && !e.target.contains(related));
-      }
+             const gifSrc = img.dataset.gif;
+             if (!gifSrc) return;
 
-      function isLeavingToOutside(e) {
-	  const related = e.relatedTarget;
-	  return !related || (related !== e.target && !e.target.contains(related));
-      }
+             let bustedUrl = currentCacheBustedURLs.get(img);
 
-      function onEnter(e) {
-	  const img = e.target;
-	  if (!(img instanceof HTMLImageElement)) return;
-	  if (!img.classList || !img.classList.contains('hover-gif')) return;
-	  if (!isEnteringFromOutside(e)) return;
+             if (!bustedUrl) {
+		 // Create and store a new cache-busted URL on first hover
+		 bustedUrl = bustCache(gifSrc);
+		 currentCacheBustedURLs.set(img, bustedUrl);
+             }
 
-	  const entry = dataMap.get(img);
-	  if (!entry) return;
+             if (img.src !== bustedUrl) {
+		 img.src = bustedUrl;
+             }
+	 }
 
-	  preloadGif(entry);
-	  img.src = bustCache(entry.gifSrc);
-      }
+	 // No mouseout handler so the GIF stays playing after hover
 
-      function onLeave(e) {
-	  const img = e.target;
-	  if (!(img instanceof HTMLImageElement)) return;
-	  if (!img.classList || !img.classList.contains('hover-gif')) return;
-	  if (!isLeavingToOutside(e)) return;
+     })();
+    </script>
 
-	  const entry = dataMap.get(img);
-	  if (!entry) return;
-
-	  img.src = entry.staticSrc;
-      }
-
-      if ('IntersectionObserver' in window) {
-	  const io = new IntersectionObserver(
-              (entries) => {
-		  for (const { isIntersecting, target } of entries) {
-		      if (!isIntersecting) continue;
-		      const entry = dataMap.get(target);
-		      if (!entry) continue;
-		      preloadGif(entry);
-		      io.unobserve(target);
-		  }
-              },
-              { rootMargin: '200px' }
-	  );
-
-	  gifs.forEach((img) => io.observe(img));
-      }
-  })();
-</script>
-
+    
     </body>
 </html>
