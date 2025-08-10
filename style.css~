@@ -1,7 +1,16 @@
+/* Dark mode */
 :root {
-  --bg-color: black;
+  --bg-color: #121212;
   --text-color: #ffffff;
   --link-color: #4da6ff;
+  --count-down: limegreen;
+}
+
+/* Light mode */
+:root[data-theme="light"] {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --link-color: #0066cc;
   --count-down: limegreen;
 }
 
@@ -18,7 +27,7 @@ a.nunder:hover {
 
 /* Links */
 a, a:visited {
-  color: var(--link-color);   
+  color: var(--link-color);       /* Use theme variable */
   text-decoration: none;
   font-weight: 500;               /* Slightly bolder for distinction */
   transition: color 0.2s;
