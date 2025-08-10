@@ -1,3 +1,7 @@
+#theme-toggle {
+    dis
+}
+
 /* Dark mode */
 :root {
   --bg-color: #121212;
