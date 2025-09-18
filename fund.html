@@ -52,49 +52,54 @@
 
     <script>
      (function () {
-	 const gifs = document.querySelectorAll('.hover-gif');
-	 if (!gifs.length) return;
+	 const imgs = document.querySelectorAll('.hover-gif');
+	 if (!imgs.length) return;
 
-	 // Helper: append cache buster to URL
-	 function bustCache(url) {
-             const sep = url.includes('?') ? '&' : '?';
-             return url + sep + 't=' + Date.now();
+	 function bust(url) {
+	     try {
+		 const u = new URL(url, location.href);
+		 u.searchParams.set('t', String(Date.now()));
+		 return u.href;
+	     } catch {
+		 const sep = url.indexOf('?') > -1 ? '&' : '?';
+		 return url + sep + 't=' + Date.now();
+	     }
 	 }
 
-	 // Store the current bust cache URL for each image
-	 const currentCacheBustedURLs = new WeakMap();
+	 function playOnceNow() {
+	     // Respect users who prefer reduced motion
+	     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-	 document.addEventListener('mouseover', onEnter, { passive: true, capture: true });
+	     imgs.forEach(img => {
+		 const gifSrc = img.dataset.gif || img.src;
+		 if (!gifSrc) return;
 
-	 function isEnteringFromOutside(e) {
-             const related = e.relatedTarget;
-             return !related || (related !== e.target && !e.target.contains(related));
+		 // Nudge decoding to avoid jank
+		 img.decoding = 'async';
+		 img.loading = 'eager';
+
+		 // Ensure the animation always restarts by cache-busting per page view
+		 const fresh = bust(gifSrc);
+		 if (img.src !== fresh) {
+		     img.src = fresh;
+		 } else {
+		     // Extremely unlikely, but guarantees a restart even if already set
+		     img.src = bust(gifSrc);
+		 }
+	     });
 	 }
 
-	 function onEnter(e) {
-             const img = e.target;
-             if (!(img instanceof HTMLImageElement)) return;
-             if (!img.classList.contains('hover-gif')) return;
-             if (!isEnteringFromOutside(e)) return;
-
-             const gifSrc = img.dataset.gif;
-             if (!gifSrc) return;
-
-             let bustedUrl = currentCacheBustedURLs.get(img);
-
-             if (!bustedUrl) {
-		 // Create and store a new cache-busted URL on first hover
-		 bustedUrl = bustCache(gifSrc);
-		 currentCacheBustedURLs.set(img, bustedUrl);
-             }
-
-             if (img.src !== bustedUrl) {
-		 img.src = bustedUrl;
-             }
+	 // Fresh page load
+	 if (document.readyState === 'loading') {
+	     document.addEventListener('DOMContentLoaded', playOnceNow, { once: true });
+	 } else {
+	     playOnceNow();
 	 }
 
-	 // No mouseout handler so the GIF stays playing after hover
-
+	 // Back/forward cache restore
+	 window.addEventListener('pageshow', e => {
+	     if (e.persisted) playOnceNow();
+	 });
      })();
     </script>
 
