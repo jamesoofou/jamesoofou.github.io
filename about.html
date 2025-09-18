@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jim's web site</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./style.css" id="main-stylesheet">
+  </head>
+  <body>
+    <p style="font-family: Courier, monospace; font-size: 22px;">
+    <a href="./fund.html" style="font-family: Courier monospace; font-size: 22px;">&lt;</a>
+    
+<div style="font-family: Courier, monospace; font-size: 22px;">
+
+    <h1>About Jim Fund</h1>
+    <p>The fund bets on intelligence takeoff.</p>
+
+    <h2>Contact:</h2>
+    <p><a href="mailto:jimfund@posteo.net">jimfund@posteo.net</a></p>
+    <h2>Fund performance:</h2>
+
+    <canvas id="myChart"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3"></script>
+    <script>
+     const ctx = document.getElementById('myChart');
+
+     // Labels including your existing points plus all 102-day interval dates
+     const labels = [
+	 "Feb 24 '25",
+	 "Jun 6 '25",
+	 "Sep 16 '25",
+	 "Dec 27 '25",
+	 "Apr 8 '26",
+	 "Jul 19 '26",
+	 "Oct 29 '26",
+	 "Feb 8 '27",
+	 "May 21 '27"
+     ];
+
+     // Known values aligned to labels; unknowns are null so no dot/line is drawn
+     const dataValues = [1, 0.67, 1.9, null, null, null, null, null, null];
+
+     // Build vertical annotations at each 102-day interval within range
+     const intervalLabels = [
+	 "Sep 16 '25",
+	 "Dec 27 '25",
+	 "Apr 8 '26",
+	 "Jul 19 '26",
+	 "Oct 29 '26",
+	 "Feb 8 '27",
+	 "May 21 '27"
+     ];
+
+     const annotations = {};
+     intervalLabels.forEach((lbl, i) => {
+	 annotations['marker' + i] = {
+	     type: 'line',
+	     scaleID: 'x',
+	     value: lbl,
+	     borderColor: 'rgba(255,255,255,0.35)',
+	     borderWidth: 1,
+	     borderDash: [4, 4],
+	 };
+     });
+
+     new Chart(ctx, {
+	 type: 'line',
+	 data: {
+	     labels,
+	     datasets: [{
+		 data: dataValues,
+		 borderColor: '#4da6ff',
+		 borderWidth: 2,
+		 tension: 0,
+		 fill: false,
+		 pointRadius: 6,
+		 pointBackgroundColor: '#4da6ff',
+		 showLine: true
+	     }]
+	 },
+	 options: {
+	     responsive: true,
+	     plugins: {
+		 legend: { display: false },
+		 title: { display: false },
+		 annotation: { annotations }
+	     },
+	     scales: {
+		 x: {
+		     ticks: { color: 'white' },
+		     grid: { color: 'rgba(255,255,255,0.2)' }
+		 },
+		 y: {
+		     beginAtZero: true,
+		     ticks: { color: 'white' },
+		     grid: { color: 'rgba(255,255,255,0.2)' }
+		 }
+	     }
+	 }
+     });
+    </script>
+
+
+
+
+
+    <div style="display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem; font-family: Arial, sans-serif; color: white;">
+	<div style="text-align: center;">
+	    <div style="font-size: 2.5rem; font-weight: bold; color: #4da6ff;">90%</div>
+	    <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Total Return</div>
+	</div>
+	<div style="text-align: center;">
+	    <div style="font-size: 2.5rem; font-weight: bold; color: #4da6ff;">213%</div>
+	    <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Annualised Return</div>
+	</div>
+    </div>
+
+
+
+    
+
+</div>
+
+  </body>
+</html>
