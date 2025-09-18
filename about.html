@@ -21,36 +21,58 @@
     <canvas id="myChart"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3"></script>
+    <div style="display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem; font-family: Arial, sans-serif; color: white;">
+	<div style="text-align: center;">
+	    <div id="totalReturn" style="font-size: 2.5rem; font-weight: bold; color: #4da6ff;">90%</div>
+	    <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Total Return</div>
+	</div>
+	<div style="text-align: center;">
+	    <div id="annualisedReturn" style="font-size: 2.5rem; font-weight: bold; color: #4da6ff;">213%</div>
+	    <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Annualised Return</div>
+	</div>
+    </div>
+
     <script>
      const ctx = document.getElementById('myChart');
 
-     // Labels including your existing points plus all 102-day interval dates
-     const labels = [
-	 "Feb 24 '25",
-	 "Jun 6 '25",
-	 "Sep 16 '25",
-	 "Dec 27 '25",
-	 "Apr 8 '26",
-	 "Jul 19 '26",
-	 "Oct 29 '26",
-	 "Feb 8 '27",
-	 "May 21 '27"
-     ];
+     const labels = ["Feb 24 '25","Jun 6 '25","Sep 16 '25","Dec 27 '25","Apr 8 '26","Jul 19 '26","Oct 29 '26","Feb 8 '27","May 21 '27"];
+     const datesISO = ["2025-02-24","2025-06-06","2025-09-16","2025-12-27","2026-04-08","2026-07-19","2026-10-29","2027-02-08","2027-05-21"];
+     const dataValues = [1.00, 0.67, 1.90, null, null, null, null, null, null];
 
-     // Known values aligned to labels; unknowns are null so no dot/line is drawn
-     const dataValues = [1, 0.67, 1.9, null, null, null, null, null, null];
+     const MS_PER_DAY = 86400000;
+     const firstIdx = dataValues.findIndex(v => v != null);
+     const baseVal = dataValues[firstIdx];
+     const baseDate = new Date(datesISO[firstIdx]);
 
-     // Build vertical annotations at each 102-day interval within range
-     const intervalLabels = [
-	 "Sep 16 '25",
-	 "Dec 27 '25",
-	 "Apr 8 '26",
-	 "Jul 19 '26",
-	 "Oct 29 '26",
-	 "Feb 8 '27",
-	 "May 21 '27"
-     ];
+     const lastIdx = (() => {
+	 for (let i = dataValues.length - 1; i >= 0; i--) if (dataValues[i] != null) return i;
+	 return firstIdx;
+     })();
 
+     const totalEl = document.getElementById('totalReturn');
+     const annualisedEl = document.getElementById('annualisedReturn');
+
+     function fmtPct(x) { return Math.round(x * 100) + "%"; }
+
+     function computeReturns(i) {
+	 const v = dataValues[i];
+	 if (v == null) return { total: '—', annualised: '—' };
+	 const rel = v / baseVal;                  // level vs first point
+	 const total = rel - 1;
+	 const days = (new Date(datesISO[i]) - baseDate) / MS_PER_DAY;
+	 const ann = days > 0 ? Math.pow(rel, 365 / days) - 1 : null;
+	 return { total: fmtPct(total), annualised: ann == null ? '—' : fmtPct(ann) };
+     }
+
+     // Default display = last known point → should be 90% total, 215% annualised
+     (function setDefault() {
+	 const { total, annualised } = computeReturns(lastIdx);
+	 totalEl.textContent = total;
+	 annualisedEl.textContent = annualised;
+     })();
+
+     // Your dashed interval markers
+     const intervalLabels = ["Sep 16 '25","Dec 27 '25","Apr 8 '26","Jul 19 '26","Oct 29 '26","Feb 8 '27","May 21 '27"];
      const annotations = {};
      intervalLabels.forEach((lbl, i) => {
 	 annotations['marker' + i] = {
@@ -80,10 +102,20 @@
 	 },
 	 options: {
 	     responsive: true,
+	     interaction: { mode: 'nearest', intersect: true },
 	     plugins: {
 		 legend: { display: false },
 		 title: { display: false },
-		 annotation: { annotations }
+		 annotation: { annotations },
+		 tooltip: {
+		     enabled: true,
+		     callbacks: {
+			 // Minimal tooltip: show date (title) and value (label). Nothing else.
+			 title: (items) => items[0].label,
+			 label: (ctx) => (ctx.raw == null ? '' : `Value: ${ctx.raw}`)
+		     },
+		     filter: (item) => item.raw != null // no tooltip for null points
+		 }
 	     },
 	     scales: {
 		 x: {
@@ -95,6 +127,18 @@
 		     ticks: { color: 'white' },
 		     grid: { color: 'rgba(255,255,255,0.2)' }
 		 }
+	     },
+	     onHover: (evt, elements) => {
+		 if (elements.length > 0) {
+		     const i = elements[0].index;
+		     const r = computeReturns(i);
+		     totalEl.textContent = r.total;
+		     annualisedEl.textContent = r.annualised;
+		 } else {
+		     const r = computeReturns(lastIdx);
+		     totalEl.textContent = r.total;
+		     annualisedEl.textContent = r.annualised;
+		 }
 	     }
 	 }
      });
@@ -102,16 +146,6 @@
 
 
 
-
-
-    <div style="display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem; font-family: Arial, sans-serif; color: white;">
-	<div style="text-align: center;">
-	    <div style="font-size: 2.5rem; font-weight: bold; color: #4da6ff;">90%</div>
-	    <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Total Return</div>
-	</div>
-	<div style="text-align: center;">
-	    <div style="font-size: 2.5rem; font-weight: bold; color: #4da6ff;">213%</div>
-	    <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Annualised Return</div>
 	</div>
     </div>
 
