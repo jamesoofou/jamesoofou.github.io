@@ -8,99 +8,159 @@
     </head>
     <body>
 	
-
-<div class="jhq-container">
-  <a href="./fund.html">
-    <img src="./jhq2.gif" width="150" alt="jim fund">
-    <img src="./jhq1.gif" width="150" alt="jim fund" class="top">
-  </a>
+<div style="font-family: Courier, monospace; font-size: 22px;">
+    <h1>Jim Fund</h1>
+    <p><a href="about.html"><i>Anticipating level-2</i></a></p>
 </div>
 
+<img src="./cyber-static.gif"
+     data-gif="./artificial-intelligence.gif" 
+     class="hover-gif" 
+     alt="scroll">
+<div id="countdown"></div>
+
+<!-- Countdown created by GPT-4o -->    
 <script>
-  // Optimized hover GIF handling
-  (function () {
-      const gifs = document.querySelectorAll('.hover-gif');
-      if (!gifs.length) return;
+ (function() {
+     const targetDate = new Date("June 17, 2027 00:00:00").getTime();
+     const countdownEl = document.getElementById("countdown");
 
-      const dataMap = new WeakMap();
+     function updateCountdown() {
+         const now = Date.now();
+         const distance = targetDate - now;
 
-      gifs.forEach((img) => {
-	  const staticSrc = img.getAttribute('src');
-	  const gifSrc = img.dataset.gif;
-	  if (!gifSrc) return;
+         if (distance <= 0) {
+	     countdownEl.textContent = "Time's up. Did you play as well as you could have?";
+	     clearInterval(timer);
+	     return;
+         }
 
-	  dataMap.set(img, { staticSrc, gifSrc, preloaded: false });
-      });
+         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      function bustCache(url) {
-	  const sep = url.includes('?') ? '&' : '?';
-	  return url + sep + 't=' + Date.now();
-      }
+         countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+     }
 
-      function preloadGif(entry) {
-	  if (entry.preloaded) return;
-	  const pre = new Image();
-	  pre.decoding = 'async';
-	  pre.src = bustCache(entry.gifSrc);
-	  entry.preloaded = true;
-      }
+     const timer = setInterval(updateCountdown, 1000);
+     updateCountdown();
+ })();
+</script>
+<!-- End Countdown Module -->
 
-      document.addEventListener('mouseover', onEnter, { passive: true, capture: true });
-      document.addEventListener('mouseout', onLeave, { passive: true, capture: true });
+<!-- Carmack-grade: plays once on load, restarts on refresh/BFCache, prerender safe -->
+<script defer>
+ (function () {
+     'use strict';
 
-      function isEnteringFromOutside(e) {
-	  const related = e.relatedTarget;
-	  return !related || (related !== e.target && !e.target.contains(related));
-      }
+     // ---- one navigation-wide token to guarantee a fresh animation each visit ----
+     const RUN_TOKEN =
+	 (typeof crypto !== 'undefined' && crypto.randomUUID)
+	 ? crypto.randomUUID()
+	 : String(performance.now() + Math.random());
 
-      function isLeavingToOutside(e) {
-	  const related = e.relatedTarget;
-	  return !related || (related !== e.target && !e.target.contains(related));
-      }
+     const SELECTOR = '.hover-gif';
 
-      function onEnter(e) {
-	  const img = e.target;
-	  if (!(img instanceof HTMLImageElement)) return;
-	  if (!img.classList || !img.classList.contains('hover-gif')) return;
-	  if (!isEnteringFromOutside(e)) return;
+     // ---- helpers ---------------------------------------------------------------
+     function bust(url, token) {
+	 try {
+	     const u = new URL(url, location.href);
+	     u.searchParams.set('t', token);
+	     return u.href;
+	 } catch {
+	     const sep = url.indexOf('?') > -1 ? '&' : '?';
+	     return url + sep + 't=' + encodeURIComponent(token);
+	 }
+     }
 
-	  const entry = dataMap.get(img);
-	  if (!entry) return;
+     function prefersReducedMotion() {
+	 return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+     }
 
-	  preloadGif(entry);
-	  img.src = bustCache(entry.gifSrc);
-      }
+     // Optionally preload the animated asset so decode starts ASAP (kept tiny + safe).
+     function preload(src) {
+	 try {
+	     const l = document.createElement('link');
+	     l.rel = 'preload';
+	     l.as = 'image';
+	     l.href = src;
+	     // If the <img> has crossOrigin, mirror it (harmless if same-origin)
+	     document.head.appendChild(l);
+	 } catch { /* no-op */ }
+     }
 
-      function onLeave(e) {
-	  const img = e.target;
-	  if (!(img instanceof HTMLImageElement)) return;
-	  if (!img.classList || !img.classList.contains('hover-gif')) return;
-	  if (!isLeavingToOutside(e)) return;
+     // ---- core: play once now ---------------------------------------------------
+     function playOnceNow(token) {
+	 performance.mark('gif-play-start');
 
-	  const entry = dataMap.get(img);
-	  if (!entry) return;
+	 const reduced = prefersReducedMotion();
+	 const imgs = document.querySelectorAll(SELECTOR);
+	 if (!imgs.length) return;
 
-	  img.src = entry.staticSrc;
-      }
+	 imgs.forEach((img, i) => {
+	     // Allow override per image: data-play-even-if-reduced="true"
+	     if (reduced && img.dataset.playEvenIfReduced !== 'true') return;
 
-      if ('IntersectionObserver' in window) {
-	  const io = new IntersectionObserver(
-	      (entries) => {
-		  for (const { isIntersecting, target } of entries) {
-		      if (!isIntersecting) continue;
-		      const entry = dataMap.get(target);
-		      if (!entry) continue;
-		      preloadGif(entry);
-		      io.unobserve(target);
-		  }
-	      },
-	      { rootMargin: '200px' }
-	  );
+	     // Source selection: prefer data-gif, fallback to current src
+	     const gifSrc = img.dataset.gif || img.src;
+	     if (!gifSrc) return; // fail safe — keep static poster
 
-	  gifs.forEach((img) => io.observe(img));
-      }
-  })();
+	     // Encourage smooth decode without delaying start
+	     img.decoding = 'async';
+	     img.loading = 'eager';
+	     // If using fetchpriority, set it (supported quietly where available)
+	     try { img.fetchPriority = 'high'; } catch {}
+
+	     // Unique-but-stable per navigation; add index so multiple images don’t collide
+	     const perImageToken = token + ':' + i;
+
+	     const freshUrl = bust(gifSrc, perImageToken);
+
+	     // Unconditionally set; no branch on current src = simpler & deterministic
+	     img.src = freshUrl;
+
+	     // Opportunistic preload (helps if the browser starts fetch on <link> earlier)
+	     preload(freshUrl);
+	 });
+
+	 performance.mark('gif-play-end');
+	 try { performance.measure('gif-play', 'gif-play-start', 'gif-play-end'); } catch {}
+     }
+
+     // ---- run strategy ----------------------------------------------------------
+     function run() { playOnceNow(RUN_TOKEN); }
+
+     // If the page is being prerendered, wait until it becomes active.
+     if (document.prerendering) {
+	 // Standard event in browsers that support prerendering
+	 document.addEventListener('prerenderingchange', run, { once: true });
+     } else {
+	 // Script is deferred; DOM is ready — run immediately
+	 run();
+     }
+
+     // BFCache restore: ensure replay when returning via back/forward
+     window.addEventListener('pageshow', e => { if (e.persisted) run(); });
+
+     // Expose a tiny manual trigger for demos/tests
+     window.JimGif = Object.freeze({
+	 restart() { playOnceNow((typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID()
+                               : String(performance.now() + Math.random())); }
+     });
+ })();
 </script>
 
+
+
+    <div style="font-family: Courier, monospace; font-size: 22px;">
+	<h2>Research</h2>
+	<ul>
+	    <!--<li><a href="2026.html">One Year From Now (Part I)</a><br>(17/sep/25)</li> -->
+	    <li><a href="google.html">Google</a><br>(14/sep/25)</li>
+	</ul>
+    </div>
+
+    
     </body>
 </html>
