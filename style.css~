@@ -5,6 +5,12 @@
   --count-down: #ffffff;
 }
 
+img {
+  max-width: 100%;
+  height: auto !important;
+  display: block;
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
