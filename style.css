@@ -5,7 +5,7 @@
   --count-down: #ffffff;
 }
 
-.discord img {
+img.discord {
   max-width: 100%;
   height: auto !important;
   display: block;
