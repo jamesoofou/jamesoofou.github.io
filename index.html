@@ -79,51 +79,51 @@
 </div>
 
 <script>
-    // --- CONFIGURATION ---
-    // Paste your PERMANENT ID here. It will never change.
-    const BLOB_ID = "019b03db-fc50-75f5-b6c2-15e46d8d7d3b";
- 
- const API_URL = `https://jsonblob.com/api/jsonBlob/${BLOB_ID}`;
+ // --- DIRECT CONFIGURATION ---
+ const MANIFOLD_API = "https://api.manifold.markets/v0/slug/goog-reaches-600-by-eoy-2026";
+ const TARGET_VAL = 99; // The hardcoded comparison value
 
  async function refreshData() {
      try {
-         const res = await fetch(API_URL);
+         // 1. Fetch Directly from Manifold (No Proxy, No Python)
+         const res = await fetch(MANIFOLD_API);
          const data = await res.json();
 
-         const a = data.core_a;
-         const b = data.core_b;
+         // 2. Get Probability
+         const a = Math.round(data.probability * 100);
+         const b = TARGET_VAL;
          const diff = Math.abs(a - b);
 
-         // Update Numbers
+         // 3. Update UI
          document.getElementById('val-a').innerText = a + "%";
          document.getElementById('val-b').innerText = b + "%";
          document.getElementById('div-val').innerText = diff + "%";
 
-         // Update Bars
          drawBar('bar-a', a);
          drawBar('bar-b', b);
          
          // Connection Status (Blue)
          document.getElementById('conn-status').style.color = "#4da6ff"; 
+         document.getElementById('cyber-widget').style.opacity = "1";
 
          // Color Logic
          const box = document.getElementById('div-box');
          const val = document.getElementById('div-val');
          
          if(diff > 50) {
-             // CRITICAL
+             // CRITICAL (Red)
              box.style.borderColor = "#ff2a2a";
              val.style.color = "#ff2a2a";
              box.style.boxShadow = "inset 0 0 10px rgba(255, 42, 42, 0.2)";
          } else {
-             // STABLE
+             // STABLE (White border, Blue text)
              box.style.borderColor = "#ffffff";
              val.style.color = "#4da6ff";
              box.style.boxShadow = "none";
          }
 
      } catch (e) {
-         // Offline State
+         console.error("API Error:", e);
          document.getElementById('conn-status').style.color = "#ff2a2a";
          document.getElementById('cyber-widget').style.opacity = "0.5";
      }
@@ -137,7 +137,8 @@
 
  // Run
  refreshData();
- setInterval(refreshData, 2000);
+ // Update every 30 seconds (Manifold doesn't change that fast)
+ setInterval(refreshData, 30000);
 </script>
 
 <style>
