@@ -78,8 +78,7 @@
 <script>
  // --- YOUR SSH TUNNEL URL ---
  // Update this if you restart the terminal
- const API_URL = "https://f9e92c153a4b85.lhr.life/status";
-
+ const API_URL = "https://d05136e097bf02.lhr.life/status";
 
  async function refreshData() {
      try {
@@ -122,7 +121,7 @@
  function drawBar(id, val) {
      const filled = Math.round((val / 100) * 20); // 20 chars
      const str = `<span style="color:#0aff0a">${'|'.repeat(filled)}</span>${'.'.repeat(20 - filled)}`;
-     document.getElementById(id).innerHTML = str;
+ document.getElementById(id).innerHTML = str;
  }
 
  // Run
