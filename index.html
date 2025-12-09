@@ -8,10 +8,14 @@
     </head>
     <body>
 	
-<div style="font-family: Courier, monospace; font-size: 22px;">
+<!-- IMPORT FONT FOR WIDGET -->
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+<!-- MAIN CONTENT -->
+<div style="font-family: Courier, monospace; font-size: 22px; max-width: 800px; margin: 0 auto;">
     <p>jimfund</p>
     04/dec/2025 <a href="https://www.lesswrong.com/posts/s8LgGaPHJtYZgZxFE/james-oofou-s-shortform?commentId=cynuvGfYFCkT8FRNr">Near-Future Fiction III</a><br>
-		   06/nov/2025 <a href="doubling-times.html">Doubling Times</a></br>
+    06/nov/2025 <a href="doubling-times.html">Doubling Times</a><br>
     31/oct/2025 <a href="openai.html">A Tremendously Important Step Forward</a><br>
     27/sep/2025 <a href="projecting.html">Projecting AI Progress</a><br>
     25/sep/2025 <a href="spy.html">SPY Calls</a><br>
@@ -22,6 +26,112 @@
     06/mar/2025 <a href="https://jamesoofou.substack.com/p/scaling-inference-time-reasoning-d38">Math</a><br>
     10/oct/2024 <a href="https://www.lesswrong.com/posts/s8LgGaPHJtYZgZxFE/james-oofou-s-shortform?commentId=EgvRqBdikFa8uS8xS">Near-Future Fiction</a>
 </div>
+
+<!-- LIVE MARKET MODULE -->
+<div style="margin-top: 60px; display: flex; justify-content: center;">
+    
+    <div id="cyber-widget" style="
+             font-family: 'VT323', monospace;
+             background: #000;
+             color: #0aff0a;
+             border: 1px solid #0aff0a;
+             padding: 15px 20px;
+             width: 320px;
+             box-shadow: 0 0 15px rgba(0, 50, 0, 0.5);
+             text-transform: uppercase;
+             font-size: 18px;
+             line-height: 1.4;
+	     ">
+        <div style="border-bottom: 1px solid #0aff0a; margin-bottom: 10px; display: flex; justify-content: space-between;">
+            <span>MANIFOLD_LINK</span>
+            <span id="conn-status" style="animation: blink 1s infinite;">●</span>
+        </div>
+
+        <!-- Row 1: Google Prediction -->
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span style="width: 80px;">GOOG_26</span>
+            <span id="bar-a" style="color: #003b00;">....................</span>
+            <span id="val-a" style="width: 40px; text-align: right;">--%</span>
+        </div>
+
+        <!-- Row 2: Target (99%) -->
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+            <span style="width: 80px;">TARGET</span>
+            <span id="bar-b" style="color: #003b00;">....................</span>
+            <span id="val-b" style="width: 40px; text-align: right;">--%</span>
+        </div>
+
+        <!-- Divergence Box -->
+        <div id="div-box" style="
+		 border: 1px dashed #003b00; 
+		 text-align: center; 
+		 padding: 5px;
+		 transition: all 0.3s;
+		 ">
+            <div style="font-size: 12px; opacity: 0.7;">PROBABILITY_DELTA</div>
+            <div id="div-val" style="font-size: 24px; font-weight: bold;">--.--%</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+ // --- YOUR SSH TUNNEL URL ---
+ // Update this if you restart the terminal
+ const API_URL = "https://f9e92c153a4b85.lhr.life/status"; 
+
+ async function refreshData() {
+     try {
+         const res = await fetch(API_URL);
+         const data = await res.json();
+
+         const a = data.core_a; // Manifold Value
+         const b = data.core_b; // 99
+         const diff = Math.abs(a - b);
+
+         // Update Numbers
+         document.getElementById('val-a').innerText = a + "%";
+         document.getElementById('val-b').innerText = b + "%";
+         document.getElementById('div-val').innerText = diff + "%";
+
+         // Update Bars
+         drawBar('bar-a', a);
+         drawBar('bar-b', b);
+         
+         // Connection Status
+         document.getElementById('conn-status').style.color = "#0aff0a"; // Green
+
+         // Color Logic (Red if > 50% off target)
+         const box = document.getElementById('div-box');
+         if(diff > 50) {
+             box.style.borderColor = "#ff2a2a";
+             box.style.color = "#ff2a2a";
+         } else {
+             box.style.borderColor = "#003b00";
+             box.style.color = "#0aff0a";
+         }
+
+     } catch (e) {
+         // Offline State
+         document.getElementById('conn-status').style.color = "#ff2a2a"; // Red
+         document.getElementById('cyber-widget').style.opacity = "0.5";
+     }
+ }
+
+ function drawBar(id, val) {
+     const filled = Math.round((val / 100) * 20); // 20 chars
+     const str = `<span style="color:#0aff0a">${'|'.repeat(filled)}</span>${'.'.repeat(20 - filled)}`;
+     document.getElementById(id).innerHTML = str;
+ }
+
+ // Run
+ refreshData();
+ setInterval(refreshData, 2000);
+</script>
+
+<style>
+ @keyframes blink { 50% { opacity: 0; } }
+</style>
 
     </body>
 </html>
