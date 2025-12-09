@@ -33,8 +33,8 @@
     <div id="cyber-widget" style="
              font-family: 'VT323', monospace;
              background: #000;
-             color: #ffffff; /* Static Text is White */
-             border: 1px solid #ffffff; /* Static Border is White */
+             color: #ffffff;
+             border: 1px solid #ffffff;
              padding: 15px 20px;
              width: 400px;
              box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
@@ -42,7 +42,7 @@
              font-size: 18px;
              line-height: 1.4;
              ">
-        <!-- Header with Blue Link -->
+        <!-- Header -->
         <div style="border-bottom: 1px solid #ffffff; margin-bottom: 12px; padding-bottom: 4px; display: flex; justify-content: space-between;">
             <span>
                 MARKET: [<a href="https://manifold.markets/jim/goog-reaches-600-by-eoy-2026?r=amlt" target="_blank" style="color: #4da6ff; text-decoration: none; border-bottom: 1px dotted #4da6ff;">GOOG > $600?</a>]
@@ -53,9 +53,7 @@
         <!-- Row 1: Manifold Prediction -->
         <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
             <span style="width: 130px;">MANIFOLD PROB.</span>
-            <!-- Empty slots are dim white -->
             <span id="bar-a" style="color: rgba(255,255,255,0.2);">....................</span>
-            <!-- Value is Blue (Data) -->
             <span id="val-a" style="width: 45px; text-align: right; color: #4da6ff;">--%</span>
         </div>
 
@@ -68,7 +66,7 @@
 
         <!-- Divergence Box -->
         <div id="div-box" style="
-		 border: 1px dashed #ffffff; /* Default border white */
+		 border: 1px dashed #ffffff; 
 		 text-align: center; 
 		 padding: 8px;
 		 transition: all 0.3s;
@@ -81,16 +79,19 @@
 </div>
 
 <script>
- // --- YOUR SSH TUNNEL URL ---
- const API_URL = "https://d05136e097bf02.lhr.life/status";
+    // --- CONFIGURATION ---
+    // Paste your PERMANENT ID here. It will never change.
+    const BLOB_ID = "019b03db-fc50-75f5-b6c2-15e46d8d7d3b";
+ 
+ const API_URL = `https://jsonblob.com/api/jsonBlob/${BLOB_ID}`;
 
  async function refreshData() {
      try {
          const res = await fetch(API_URL);
          const data = await res.json();
 
-         const a = data.core_a; // Manifold Value
-         const b = data.core_b; // 99
+         const a = data.core_a;
+         const b = data.core_b;
          const diff = Math.abs(a - b);
 
          // Update Numbers
@@ -110,12 +111,12 @@
          const val = document.getElementById('div-val');
          
          if(diff > 50) {
-             // CRITICAL: Red Border + Red Value
+             // CRITICAL
              box.style.borderColor = "#ff2a2a";
              val.style.color = "#ff2a2a";
              box.style.boxShadow = "inset 0 0 10px rgba(255, 42, 42, 0.2)";
          } else {
-             // STABLE: White Border + Blue Value
+             // STABLE
              box.style.borderColor = "#ffffff";
              val.style.color = "#4da6ff";
              box.style.boxShadow = "none";
@@ -130,7 +131,6 @@
 
  function drawBar(id, val) {
      const filled = Math.round((val / 100) * 20); 
-     // Filled slots are Blue
      const str = `<span style="color:#4da6ff; text-shadow: 0 0 5px #4da6ff;">${'|'.repeat(filled)}</span>${'.'.repeat(20 - filled)}`;
      document.getElementById(id).innerHTML = str;
  }
