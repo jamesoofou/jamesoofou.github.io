@@ -5,16 +5,18 @@
   --count-down: #ffffff;
 }
 
-img {
+img.discord {
   max-width: 100%;
   height: auto !important;
   display: block;
 }
 
+img { max-width: 100%; height: auto; }
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    max-width: 600px;
+    max-width: 666px;
     margin: 0 auto;
 }
 

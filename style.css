@@ -14,6 +14,9 @@ img.discord {
 img { max-width: 100%; height: auto; }
 
 body {
+    font-family: Courier, monospace;
+    max-width: 800px;
+    margin: 0 auto;
     background-color: var(--bg-color);
     color: var(--text-color);
     max-width: 666px;
