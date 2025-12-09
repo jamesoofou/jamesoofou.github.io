@@ -36,40 +36,43 @@
              color: #4da6ff;
              border: 1px solid #4da6ff;
              padding: 15px 20px;
-             width: 320px;
-             box-shadow: 0 0 15px rgba(0, 50, 0, 0.5);
+             width: 400px; /* Widened to fit new text */
+             box-shadow: 0 0 15px rgba(77, 166, 255, 0.2);
              text-transform: uppercase;
              font-size: 18px;
              line-height: 1.4;
-	     ">
-        <div style="border-bottom: 1px solid #0aff0a; margin-bottom: 10px; display: flex; justify-content: space-between;">
-            <span>MANIFOLD_LINK [<a href="https://manifold.markets/jim/openai-releases-new-reasoning-model?r=amlt" GOOG $600 by EOY 2026?</a>]</span>
+             ">
+        <!-- Header with Fixed Link -->
+        <div style="border-bottom: 1px solid #4da6ff; margin-bottom: 12px; padding-bottom: 4px; display: flex; justify-content: space-between;">
+            <span>
+                MARKET: [<a href="https://manifold.markets/jim/goog-reaches-600-by-eoy-2026?r=amlt" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 1px dotted currentColor;">GOOG > $600?</a>]
+            </span>
             <span id="conn-status" style="animation: blink 1s infinite;">●</span>
         </div>
 
-        <!-- Row 1: Google Prediction -->
-        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-            <span style="width: 80px;">MANIFOLD PROB.</span>
-            <span id="bar-a" style="color: #003b00;">....................</span>
-            <span id="val-a" style="width: 40px; text-align: right;">--%</span>
+        <!-- Row 1: Manifold Prediction -->
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span style="width: 130px;">MANIFOLD PROB.</span>
+            <span id="bar-a" style="color: #0d335d;">....................</span>
+            <span id="val-a" style="width: 45px; text-align: right;">--%</span>
         </div>
 
-        <!-- Row 2: Target (99%) -->
-        <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-            <span style="width: 80px;">TRUE PROB</span>
-            <span id="bar-b" style="color: #003b00;">....................</span>
-            <span id="val-b" style="width: 40px; text-align: right;">--%</span>
+        <!-- Row 2: True Probability -->
+        <div style="display: flex; justify-content: space-between; margin-bottom: 18px;">
+            <span style="width: 130px;">TRUE PROB.</span>
+            <span id="bar-b" style="color: #0d335d;">....................</span>
+            <span id="val-b" style="width: 45px; text-align: right;">--%</span>
         </div>
 
         <!-- Divergence Box -->
         <div id="div-box" style="
-		 border: 1px dashed #003b00; 
+		 border: 1px dashed #0d335d; 
 		 text-align: center; 
-		 padding: 5px;
+		 padding: 8px;
 		 transition: all 0.3s;
 		 ">
-            <div style="font-size: 12px; opacity: 0.7;">PROBABILITY_DELTA</div>
-            <div id="div-val" style="font-size: 24px; font-weight: bold;">--.--%</div>
+            <div style="font-size: 14px; opacity: 0.8; margin-bottom: 2px;">PROBABILITY_DELTA</div>
+            <div id="div-val" style="font-size: 28px; font-weight: bold; letter-spacing: 2px;">--.--%</div>
         </div>
     </div>
 
@@ -98,17 +101,19 @@
          drawBar('bar-a', a);
          drawBar('bar-b', b);
          
-         // Connection Status
-         document.getElementById('conn-status').style.color = "#0aff0a"; // Green
+         // Connection Status (Blue)
+         document.getElementById('conn-status').style.color = "#4da6ff"; 
 
-         // Color Logic (Red if > 50% off target)
+         // Color Logic (Red if > 50% off target, Blue if Stable)
          const box = document.getElementById('div-box');
          if(diff > 50) {
              box.style.borderColor = "#ff2a2a";
              box.style.color = "#ff2a2a";
+             box.style.boxShadow = "inset 0 0 10px rgba(255, 42, 42, 0.2)";
          } else {
-             box.style.borderColor = "#003b00";
-             box.style.color = "#0aff0a";
+             box.style.borderColor = "#0d335d";
+             box.style.color = "#4da6ff";
+             box.style.boxShadow = "none";
          }
 
      } catch (e) {
@@ -120,8 +125,9 @@
 
  function drawBar(id, val) {
      const filled = Math.round((val / 100) * 20); // 20 chars
-     const str = `<span style="color:#0aff0a">${'|'.repeat(filled)}</span>${'.'.repeat(20 - filled)}`;
- document.getElementById(id).innerHTML = str;
+     // Using the new Blue (#4da6ff) for the filled portion
+     const str = `<span style="color:#4da6ff; text-shadow: 0 0 5px #4da6ff;">${'|'.repeat(filled)}</span>${'.'.repeat(20 - filled)}`;
+     document.getElementById(id).innerHTML = str;
  }
 
  // Run
