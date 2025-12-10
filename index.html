@@ -8,165 +8,235 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
         <style>
+            :root {
+                --bg-color: #fafafa;
+                --text-color: #222;
+                --text-muted: #888;
+                --text-hover: #555;
+                --link-color: #222;
+                --blockquote-border: #e0e0e0;
+                --blockquote-text: #555;
+                --shadow-color: rgba(0,0,0,0.1);
+            }
+
+            .dark-mode {
+                --bg-color: #1a1a1a;
+                --text-color: #e0e0e0;
+                --text-muted: #888;
+                --text-hover: #bbb;
+                --link-color: #e0e0e0;
+                --blockquote-border: #444;
+                --blockquote-text: #aaa;
+                --shadow-color: rgba(0,0,0,0.4);
+            }
+
             * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
             }
 
             .article-view .content img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 1.5rem 0; /* Matches your paragraph spacing */
-            border-radius: 8px; /* Optional: Softens the corners */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Optional: Adds a subtle lift */
+                max-width: 100%;
+                height: auto;
+                display: block;
+                margin: 1.5rem 0;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px var(--shadow-color);
             }
 
-	    /* Blockquote styling */
             .article-view .content blockquote {
-            margin: 1.5rem 0 1.5rem 0;   /* Vertical breathing room */
-            padding-left: 1.25rem;       /* Space between border and text */
-            border-left: 4px solid #e0e0e0; /* Subtle grey accent line */
-            color: #555;                 /* Slightly lighter text color */
-            font-style: italic;          /* Garamond looks beautiful in italics */
+                margin: 1.5rem 0 1.5rem 0;
+                padding-left: 1.25rem;
+                border-left: 4px solid var(--blockquote-border);
+                color: var(--blockquote-text);
+                font-style: italic;
             }
 
-         body {
-             font-family: 'EB Garamond', Georgia, serif;
-             font-size: 18px;
-             line-height: 1.6;
-             color: #222;
-             background: #fafafa;
-             padding: 3rem 1.5rem;
-             max-width: 600px;
-             margin: 0 auto;
-         }
+            body {
+                font-family: 'EB Garamond', Georgia, serif;
+                font-size: 18px;
+                line-height: 1.6;
+                color: var(--text-color);
+                background: var(--bg-color);
+                padding: 3rem 1.5rem;
+                max-width: 600px;
+                margin: 0 auto;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
 
-         header {
-             margin-bottom: 3rem;
-         }
+            header {
+                margin-bottom: 3rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
 
-         h1 {
-             font-size: 1.5rem;
-             font-weight: 500;
-             letter-spacing: -0.02em;
-         }
+            h1 {
+                font-size: 1.5rem;
+                font-weight: 500;
+                letter-spacing: -0.02em;
+            }
 
-         h1 a {
-             color: inherit;
-             text-decoration: none;
-         }
+            h1 a {
+                color: inherit;
+                text-decoration: none;
+            }
 
-         h1 a:hover {
-             color: #555;
-         }
+            h1 a:hover {
+                color: var(--text-hover);
+            }
 
-         .articles {
-             list-style: none;
-         }
+            .theme-toggle {
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0.25rem;
+                color: var(--text-muted);
+                transition: color 0.2s ease;
+                display: flex;
+                align-items: center;
+            }
 
-         .article {
-             margin-bottom: 0.75rem;
-             display: flex;
-             gap: 1.5rem;
-             align-items: baseline;
-         }
+            .theme-toggle:hover {
+                color: var(--text-color);
+            }
 
-         .date {
-             color: #888;
-             font-size: 0.9rem;
-             flex-shrink: 0;
-             width: 6rem;
-         }
+            .theme-toggle .sun {
+                display: none;
+            }
 
-         .title {
-             color: #222;
-             text-decoration: none;
-             cursor: pointer;
-         }
+            .theme-toggle .moon {
+                display: block;
+            }
 
-         .title:hover {
-             color: #555;
-         }
+            .dark-mode .theme-toggle .sun {
+                display: block;
+            }
 
-         .article-view {
-             display: none;
-         }
+            .dark-mode .theme-toggle .moon {
+                display: none;
+            }
 
-         .article-view.active {
-             display: block;
-         }
+            .articles {
+                list-style: none;
+            }
 
-         .article-view .article-date {
-             color: #888;
-             font-size: 0.9rem;
-             margin-bottom: 1.5rem;
-         }
+            .article {
+                margin-bottom: 0.75rem;
+                display: flex;
+                gap: 1.5rem;
+                align-items: baseline;
+            }
 
-         .article-view h2 {
-             font-size: 1.75rem;
-             font-weight: 500;
-             margin-bottom: 0.5rem;
-             letter-spacing: -0.02em;
-         }
+            .date {
+                color: var(--text-muted);
+                font-size: 0.9rem;
+                flex-shrink: 0;
+                width: 6rem;
+            }
 
-         .article-view .content {
-             margin-top: 2rem;
-         }
+            .title {
+                color: var(--text-color);
+                text-decoration: none;
+                cursor: pointer;
+            }
 
-         .article-view .content p {
-             margin-bottom: 1.25rem;
-         }
+            .title:hover {
+                color: var(--text-hover);
+            }
 
-         .article-view .content a {
-             color: #222;
-             text-decoration: underline;
-         }
+            .article-view {
+                display: none;
+            }
 
-         .article-view .content a:hover {
-             color: #555;
-         }
+            .article-view.active {
+                display: block;
+            }
 
-         .home-view.hidden {
-             display: none;
-         }
+            .article-view .article-date {
+                color: var(--text-muted);
+                font-size: 0.9rem;
+                margin-bottom: 1.5rem;
+            }
 
-	 /* Target lists specifically inside the article content */
-	 .article-view .content ul {
-	     margin-bottom: 1.25rem; /* Matches your paragraph spacing */
-	     padding-left: 1.5rem;   /* Standard indentation */
-	     list-style-type: disc;  /* Classic bullet */
-	 }
+            .article-view h2 {
+                font-size: 1.75rem;
+                font-weight: 500;
+                margin-bottom: 0.5rem;
+                letter-spacing: -0.02em;
+            }
 
-	 .article-view .content li {
-	     margin-bottom: 0.5rem;  /* Breathing room between items */
-	     padding-left: 0.25rem;  /* Slight space between bullet and text */
-	 }
+            .article-view .content {
+                margin-top: 2rem;
+            }
 
-	 /* Handle nested lists (lists inside lists) */
-	 .article-view .content ul ul {
-	     margin-bottom: 0;
-	     margin-top: 0.5rem;
-	     list-style-type: circle; /* Change bullet style for nested items */
-	 }
+            .article-view .content p {
+                margin-bottom: 1.25rem;
+            }
 
-         @media (max-width: 500px) {
-             .article {
-                 flex-direction: column;
-                 gap: 0.1rem;
-                 margin-bottom: 1.25rem;
-             }
+            .article-view .content a {
+                color: var(--link-color);
+                text-decoration: underline;
+            }
 
-             .date {
-                 width: auto;
-             }
-         }
+            .article-view .content a:hover {
+                color: var(--text-hover);
+            }
+
+            .home-view.hidden {
+                display: none;
+            }
+
+            .article-view .content ul {
+                margin-bottom: 1.25rem;
+                padding-left: 1.5rem;
+                list-style-type: disc;
+            }
+
+            .article-view .content li {
+                margin-bottom: 0.5rem;
+                padding-left: 0.25rem;
+            }
+
+            .article-view .content ul ul {
+                margin-bottom: 0;
+                margin-top: 0.5rem;
+                list-style-type: circle;
+            }
+
+            @media (max-width: 500px) {
+                .article {
+                    flex-direction: column;
+                    gap: 0.1rem;
+                    margin-bottom: 1.25rem;
+                }
+
+                .date {
+                    width: auto;
+                }
+            }
         </style>
     </head>
     <body>
         <header>
             <h1><a href="#" onclick="showHome(); return false;">jimfund</a></h1>
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+                <svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
         </header>
 
         <main>
@@ -630,6 +700,23 @@
         </main>
 
         <script>
+         function toggleTheme() {
+             document.body.classList.toggle('dark-mode');
+             const isDark = document.body.classList.contains('dark-mode');
+             localStorage.setItem('theme', isDark ? 'dark' : 'light');
+         }
+
+         function initTheme() {
+             const savedTheme = localStorage.getItem('theme');
+             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+             
+             if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                 document.body.classList.add('dark-mode');
+             }
+         }
+
+         initTheme();
+
          function showArticle(id) {
              document.querySelector('.home-view').classList.add('hidden');
              document.querySelectorAll('.article-view').forEach(el => el.classList.remove('active'));
@@ -645,7 +732,6 @@
              window.scrollTo(0, 0);
          }
 
-         // Handle direct links and back/forward navigation
          function handleHash() {
              const hash = window.location.hash.slice(1);
              if (hash && document.getElementById(hash)) {
